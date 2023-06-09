@@ -27,7 +27,7 @@ rm(list=ls())
 ##
 pacman::p_load(openxlsx, sjPlot,
                lubridate, dplyr, tidyr,
-               lme4, performance, rptR,
+               l.me4, performance, rptR,
                ggplot2, extrafont)
 loadfonts()
 
