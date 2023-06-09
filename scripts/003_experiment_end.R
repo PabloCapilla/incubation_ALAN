@@ -2,11 +2,9 @@
 ###
 #' 
 #' Script for:
-#' TITLE
-#' McGlade  et al.
-#' Preprint: 
+#' Experimental light at night explains differences in activity onset between urban and forest Great tits
+#' Ciara L. O. McGlade, Pablo Capilla-Lasheras, Robyn J. Womack, Barbara Helm, Davide M. Dominoni
 #' 
-#' Latest update: 
 #' 
 ###
 ###
@@ -76,6 +74,35 @@ data %>%
   group_by(type, site) %>% 
   count()
 
+##
+##
+###### Box plots #####
+##
+##
+boxplot_end <- ggplot(data = data, aes(x = type, y = activity_end_relative, color = type, fill = type)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        legend.text = element_text("Arial", size = 10),
+        panel.grid = element_blank(),
+        axis.title = element_text("Arial", size = 10),
+        axis.text.x = element_text("Arial", size = 10, angle = -45),
+        axis.text.y = element_text("Arial", size = 10)) +
+  geom_boxplot(alpha = 0.25, outlier.size = 0) +
+  geom_point(position = position_jitter(width = 0.1), size = 0.75, shape = 1, fill = NA, color = "black") +
+  labs(x = " ", 
+       y = "End of activity (minutes to sunset)") +
+  scale_x_discrete(labels =  c("Forest control", "Forest ALAN", "Urban")) +
+  scale_fill_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
+                    values = c("#4daf4a", "#cccc33", "#377eb8")) +
+  scale_color_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
+                     values = c("#4daf4a", "#cccc33", "#80b1d3"))
+
+ggsave(filename = "./plots/Figure S1b.png", 
+       plot = boxplot_end, 
+       device = "png", 
+       units = "mm",
+       width = 75, 
+       height = 100) 
 ##
 ##
 ##### Models for relative end of activity #####
@@ -170,7 +197,7 @@ drop1(model_end_final, test = "Chisq")
 ##
 ## Table model results 
 tab_model(model_end_final,
-          file="./tables/model coefficients end - RAW.doc",
+          file="./tables/Table S4 - RAW.doc",
           pred.labels = c("Intercept", 
                           "Days to hatching1",
                           "Date incubation start", 
@@ -323,10 +350,10 @@ end_hatching <- ggplot(data = data,
                     values = c("#4daf4a", "#cccc33", "#377eb8")) +
   scale_color_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
                      values = c("#4daf4a", "#cccc33", "#80b1d3")) +
-  geom_text(aes(-2, 2), label = "Sunset time", vjust = -1, size = 3.5, color = "black") 
+  geom_text(aes(-2, 3), label = "Sunset time", vjust = 0, size = 3.5, color = "black") 
 
 
-ggsave(filename = "./plots/Figure 2.png", 
+ggsave(filename = "./plots/Figure 1b.png", 
        plot = end_hatching, 
        device = "png", 
        units = "mm",
@@ -382,7 +409,7 @@ end_plot_date <- ggplot(data = data,
   scale_color_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
                      values = c("#4daf4a", "#cccc33", "#80b1d3"))
 
-ggsave(filename = "./plots/Figure S2.png", 
+ggsave(filename = "./plots/Figure S3.png", 
        plot = end_plot_date, 
        device = "png", 
        units = "mm",

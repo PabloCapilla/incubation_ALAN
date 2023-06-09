@@ -2,11 +2,9 @@
 ###
 #' 
 #' Script for:
-#' TITLE
-#' McGlade  et al.
-#' Preprint: 
+#' Experimental light at night explains differences in activity onset between urban and forest Great tits
+#' Ciara L. O. McGlade, Pablo Capilla-Lasheras, Robyn J. Womack, Barbara Helm, Davide M. Dominoni
 #' 
-#' Latest update: 
 #' 
 ###
 ###
@@ -137,6 +135,37 @@ data %>%
 range(format(data$first_offbout, format = "%H:%M:%S"))
 range(data$activity_onset_relative)
 
+
+##
+##
+###### Box plots #####
+##
+##
+boxplot_onset <- ggplot(data = data, aes(x = type, y = activity_onset_relative, color = type, fill = type)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        legend.text = element_text("Arial", size = 10),
+        panel.grid = element_blank(),
+        axis.title = element_text("Arial", size = 10),
+        axis.text.x = element_text("Arial", size = 10, angle = -45),
+        axis.text.y = element_text("Arial", size = 10)) +
+  geom_boxplot(alpha = 0.25, outlier.size = 0) +
+  geom_point(position = position_jitter(width = 0.1), size = 0.75, shape = 1, fill = NA, color = "black") +
+  labs(x = " ", 
+       y = "Onset of activity (minutes after sunrise)") +
+  scale_x_discrete(labels =  c("Forest control", "Forest ALAN", "Urban")) +
+  scale_fill_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
+                    values = c("#4daf4a", "#cccc33", "#377eb8")) +
+  scale_color_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
+                     values = c("#4daf4a", "#cccc33", "#80b1d3"))
+
+ggsave(filename = "./plots/Figure S1a.png", 
+       plot = boxplot_onset, 
+       device = "png", 
+       units = "mm",
+       width = 75, 
+       height = 100) 
+
 ##
 ##
 ##### Models for relative onset of activity #####
@@ -229,7 +258,7 @@ drop1(model_onset_final, test = "Chisq")
 ##
 ## Table model results 
 tab_model(model_onset_final,
-          file="./tables/model coefficients onset - RAW.doc",
+          file="./tables/Table S3 - RAW.doc",
           pred.labels = c("Intercept", 
                           "Days to hatching1",
                           "Days to hatching2",
@@ -393,7 +422,7 @@ onset_hatching <- ggplot(data = data,
   geom_text(aes(-2, -15), label = "Sunrise time", vjust = -1, size = 3.5, color = "black") 
 
 
-ggsave(filename = "./plots/Figure 1.png", 
+ggsave(filename = "./plots/Figure 1a.png", 
        plot = onset_hatching, 
        device = "png", 
        units = "mm",
@@ -452,7 +481,7 @@ onset_plot_date <- ggplot(data = data,
                      values = c("#4daf4a", "#cccc33", "#80b1d3"))
 
 
-ggsave(filename = "./plots/Figure S1.png", 
+ggsave(filename = "./plots/Figure S2.png", 
        plot = onset_plot_date, 
        device = "png", 
        units = "mm",

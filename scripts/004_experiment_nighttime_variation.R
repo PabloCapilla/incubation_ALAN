@@ -2,17 +2,23 @@
 ###
 #' 
 #' Script for:
-#' TITLE
-#' McGlade  et al.
-#' Preprint: 
+#' Experimental light at night explains differences in activity onset between urban and forest Great tits
+#' Ciara L. O. McGlade, Pablo Capilla-Lasheras, Robyn J. Womack, Barbara Helm, Davide M. Dominoni
 #' 
-#' Latest update: 
 #' 
 ###
 ###
 
 # Clear memory to make sure there are not files loaded that could cause problems
 rm(list=ls())
+
+##
+##
+##### Script aim: #####
+#' Analysis of relative onset of activity experimental data
+#' 
+##
+##
 
 ##
 ##
@@ -84,6 +90,37 @@ length(unique(data$box)) # number of nest-boxes included
 
 range(data$night_var)
 
+
+##
+##
+###### Box plots #####
+##
+##
+boxplot_var <- ggplot(data = data, aes(x = type, y = log(night_var), color = type, fill = type)) +
+  theme_bw() +
+  theme(legend.position = "none",
+        legend.text = element_text("Arial", size = 10),
+        panel.grid = element_blank(),
+        axis.title = element_text("Arial", size = 10),
+        axis.text.x = element_text("Arial", size = 10, angle = -45),
+        axis.text.y = element_text("Arial", size = 10)) +
+  geom_boxplot(alpha = 0.25, outlier.size = 0) +
+  geom_point(position = position_jitter(width = 0.1), size = 0.75, shape = 1, fill = NA, color = "black") +
+labs(x = " ", 
+     y = expression(atop("Variation in log night time", 
+                         paste("incubation temperature (", C^2, ")")))) +
+  scale_x_discrete(labels =  c("Forest control", "Forest ALAN", "Urban")) +
+  scale_fill_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
+                    values = c("#4daf4a", "#cccc33", "#377eb8")) +
+  scale_color_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
+                     values = c("#4daf4a", "#cccc33", "#80b1d3"))
+
+ggsave(filename = "./plots/Figure S1c.png", 
+       plot = boxplot_var, 
+       device = "png", 
+       units = "mm",
+       width = 75, 
+       height = 100) 
 ##
 ##
 ##### Models for relative var of activity #####
@@ -172,7 +209,7 @@ drop1(model_var_final, test = "Chisq")
 ##
 ## Table model results 
 tab_model(model_var_final,
-          file="./tables/model coefficients var - RAW.doc",
+          file="./tables/Table S5 - RAW.doc",
           pred.labels = c("Intercept", 
                           "Days to hatching2",
                           "Days to hatching1",
@@ -319,15 +356,15 @@ var_hatching <- ggplot(data = data,
              color = "black",
              position = position_dodge(width = 0.85)) +
   labs(x = "Days before hatching", 
-       y = expression(atop("Variation in night time", 
-                           paste("incubation temperature (log ", C^2, ")")))) +
+       y = expression(atop("Variation in log night time", 
+                           paste("incubation temperature (", C^2, ")")))) +
   scale_x_continuous(breaks = -15:-1, labels = 15:1) +
-  scale_fill_manual(name = "", labels = c("Forest control", "Forest lighted", "Urban"), 
+  scale_fill_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
                     values = c("#4daf4a", "#cccc33", "#377eb8")) +
-  scale_color_manual(name = "", labels = c("Forest control", "Forest lighted", "Urban"), 
+  scale_color_manual(name = "", labels = c("Forest control", "Forest ALAN", "Urban"), 
                      values = c("#4daf4a", "#cccc33", "#80b1d3"))
 
-ggsave(filename = "./plots/Figure 3.png", 
+ggsave(filename = "./plots/Figure 2.png", 
        plot = var_hatching, 
        device = "png", 
        units = "mm",
@@ -378,15 +415,15 @@ var_plot_date <- ggplot(data = data,
             aes(y = mean_pred), 
             size = 1.5) +
   labs(x = "Days after April 1", 
-       y = expression(atop("Variation in night time", 
-                           paste("incubation temperature (log ", C^2, ")")))) +
+       y = expression(atop("Variation in log night time", 
+                           paste("incubation temperature (", C^2, ")")))) +
   scale_fill_manual(name = "", labels = c("Non-urban control", "Non-urban lighted", "Urban"), 
                     values = c("#4daf4a", "#cccc33", "#377eb8")) +
   scale_color_manual(name = "", labels = c("Non-urban control", "Non-urban lighted", "Urban"), 
                      values = c("#4daf4a", "#cccc33", "#80b1d3"))
 
 
-ggsave(filename = "./plots/Figure S3.png", 
+ggsave(filename = "./plots/Figure S4.png", 
        plot = var_plot_date, 
        device = "png", 
        units = "mm",

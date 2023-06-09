@@ -97,8 +97,8 @@ data$sunset_inc_start_dec <- hour(ymd_hms(data$sunset_inc_start)) + (minute(ymd_
 ##
 ##
 data_save <- data %>% 
-  select(year, box, date, site, days_to_hatch, inc_start_aprildays, type,
-         clutch_size, meantemp,
+  select(year, box, date, site, days_to_hatch, inc_start_aprildays, type, hatching_date,
+         clutch_size, hatchlings, fledglings, meantemp,
          first_offbout, 
          last_onbout,
          night_var = night.var,
@@ -106,6 +106,7 @@ data_save <- data %>%
          activity_end_relative)
 
 saveRDS(object = data_save, file = "./data/clean_data_analysis.RDS")
+write.csv(x =  data_save, file = "./data/clean_data_analysis.csv")
 
 
 
