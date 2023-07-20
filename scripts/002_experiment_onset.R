@@ -25,7 +25,7 @@ rm(list=ls())
 ##### libraries #####
 ##
 ##
-pacman::p_load(openxlsx, sjPlot,
+pacman::p_load(openxlsx, sjPlot, MUMIn,
                lubridate, dplyr, tidyr,
                lme4, performance, rptR,
                ggplot2, extrafont)
@@ -250,6 +250,7 @@ model_onset_final <- lmer(activity_onset_relative ~
                           data= data %>% 
                             mutate(type = factor(type, 
                                                  ordered =F)))
+r.squaredGLMM(model_onset_final)
 summary(model_onset_final)
 drop1(model_onset_final, test = "Chisq")
 

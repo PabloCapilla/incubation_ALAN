@@ -33,7 +33,7 @@ rm(list=ls())
 ##### libraries #####
 ##
 ##
-pacman::p_load(openxlsx, sjPlot, ggtext,
+pacman::p_load(openxlsx, sjPlot, ggtext, MuMIn,
                lubridate, dplyr, tidyr,
                lme4, performance, rptR,
                ggplot2, extrafont)
@@ -202,6 +202,7 @@ model_var_final <- lmer(log(night_var) ~
                         REML = F,
                         na.action = "na.fail",
                         data= data)
+r.squaredGLMM(model_var_final)
 summary(model_var_final)
 drop1(model_var_final, test = "Chisq")
 

@@ -2,11 +2,9 @@
 ###
 #' 
 #' Script for:
-#' TITLE
-#' McGlade  et al.
-#' Preprint: 
-#' 
-#' Latest update: 
+
+#' Experimental light at night explains differences in activity onset between urban and forest Great tits
+#' Ciara L. O. McGlade, Pablo Capilla-Lasheras, Robyn J. Womack, Barbara Helm, Davide M. Dominoni
 #' 
 ###
 ###
